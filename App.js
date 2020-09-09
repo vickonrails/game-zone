@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Home from "./screens/home";
 import ReviewDetails from "./screens/reviewDetails";
+import { setStatusBarStyle } from "expo-status-bar";
 
 const getFonts = () =>
   Font.loadAsync({
@@ -23,7 +24,7 @@ export default function App() {
   if (fontsLoaded) {
     return (
       <NavigationContainer>
-        <Navigator>
+        <Navigator screenOptions={{ headerStyle: { backgroundColor: "red" } }}>
           <Screen name="Home" component={Home} />
           <Screen name="ReviewDetails" component={ReviewDetails} />
         </Navigator>
