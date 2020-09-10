@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { Text, View, Button, Modal, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard,
+  StyleSheet,
+} from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Card from "../shared/card";
+import ReviewForm from "./reviewForm";
 import { globalStyles } from "../styles/global";
 
 export default function Home({ navigation }) {
@@ -29,18 +38,28 @@ export default function Home({ navigation }) {
     },
   ]);
 
+  const addReview = (review) => {
+    review.key = Math.random().toString();
+    setReviews((currentReviews) => {
+      return [review, ...currentReviews];
+    });
+    setModalOpen(false);
+  };
+
   return (
     <View style={globalStyles.container}>
       <Modal visible={modalopen} animationType="slide">
-        <View style={styles.modalContent}>
-          <MaterialIcons
-            name="close"
-            style={{ ...styles.modalToggle, ...styles.modalClose }}
-            size={24}
-            onPress={() => setModalOpen(false)}
-          />
-          <Text>Hello from This Modal</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
+          <View style={styles.modalContent}>
+            <MaterialIcons
+              name="close"
+              style={{ ...styles.modalToggle, ...styles.modalClose }}
+              size={24}
+              onPress={() => setModalOpen(false)}
+            />
+            <ReviewForm addReview={addReview} />
+          </View>
+        </TouchableWithoutFeedback>
       </Modal>
 
       <MaterialIcons
